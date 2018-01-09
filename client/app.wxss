@@ -1,7 +1,7 @@
 /**app.wxss**/
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+page {
+  height: 100%;
+}
+view, scroll-view {
   box-sizing: border-box;
-} 
+}

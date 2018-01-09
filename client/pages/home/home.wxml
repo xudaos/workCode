@@ -1,0 +1,3 @@
+<scroll-view class="home" scroll-y="true">
+  <view></view>
+</scroll-view>
