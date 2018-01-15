@@ -5,14 +5,35 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    grids: [],
+    message: 'hello'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    const grids = []
+    for (let i = 0; i < 30; i++) {
+      const rows = []
+      for (let j = 0; j < 20; j++) {
+        const grid = {
+          key: i + ',' + j,
+          top: '1px solid rgb(200,200,200)',
+          bottom: '1px solid rgb(200,200,200)',
+          left: '1px solid rgb(200,200,200)',
+          right: '1px solid rgb(200,200,200)'
+        }
+        if (i === 0) {
+          grid.top = '1px solid rgb(0,0,0)'
+        }
+        rows.push(grid)
+      }
+      grids.push(rows)
+      this.setData({
+        grids: grids
+      })
+    }
   },
 
   /**

@@ -1,3 +1,10 @@
-<scroll-view class="home" scroll-y="true">
-  <view></view>
+<scroll-view class="home" scroll-y="true" scroll-x="true">
+  <view class="body">
+    <view class="main">
+      <view class="row" wx:for="{{grids}}" wx:for-index="index" wx:key="index" wx:for-item="row">
+      <view class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top}}; border-bottom: {{grid.bottom}}; border-left: {{grid.left}}; border-right: {{grid.right}}">
+      </view>
+      </view>
+    </view>
+  </view>
 </scroll-view>
