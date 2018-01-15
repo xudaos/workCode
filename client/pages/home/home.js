@@ -14,18 +14,33 @@ Page({
    */
   onLoad: function (options) {
     const grids = []
+    const beginI = Math.floor(Math.random() * 30)
+    const beginJ = Math.floor(Math.random() * 20)
+    console.log(beginI + ',' + beginJ)
+    const endI = Math.floor(Math.random() * 30)
+    const endJ = Math.floor(Math.random() * 20)
+    console.log(endI + ',' + endJ)
     for (let i = 0; i < 30; i++) {
       const rows = []
       for (let j = 0; j < 20; j++) {
         const grid = {
           key: i + ',' + j,
-          top: '1px solid rgb(200,200,200)',
-          bottom: '1px solid rgb(200,200,200)',
-          left: '1px solid rgb(200,200,200)',
-          right: '1px solid rgb(200,200,200)'
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
         }
         if (i === 0) {
-          grid.top = '1px solid rgb(0,0,0)'
+          grid.top = 1
+        }
+        if (i === 29) {
+          grid.bottom = 1
+        }
+        if (j === 0) {
+          grid.left = 1
+        }
+        if (j === 19) {
+          grid.right = 1
         }
         rows.push(grid)
       }

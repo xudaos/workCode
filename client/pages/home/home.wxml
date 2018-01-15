@@ -2,7 +2,7 @@
   <view class="body">
     <view class="main">
       <view class="row" wx:for="{{grids}}" wx:for-index="index" wx:key="index" wx:for-item="row">
-      <view class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top}}; border-bottom: {{grid.bottom}}; border-left: {{grid.left}}; border-right: {{grid.right}}">
+      <view class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top ? '1px solid rgb(0,0,0)' : '1px solid rgb(200,200,200)'}}; border-bottom: {{grid.bottom ? '1px solid rgb(0,0,0)' : '1px solid rgb(200,200,200)'}}; border-left: {{grid.left ? '1px solid rgb(0,0,0)' : '1px solid rgb(200,200,200)'}}; border-right: {{grid.right ? '1px solid rgb(0,0,0)' : '1px solid rgb(200,200,200)'}}">
       </view>
       </view>
     </view>
