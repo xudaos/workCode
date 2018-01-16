@@ -1,16 +1,13 @@
-<scroll-view class="home" disable-scroll="true">
-  <view class="body">
-    <view class="main">
-      <view class="row" wx:for="{{grids}}" wx:for-index="index" wx:key="index" wx:for-item="row">
-        <view data-grid="{{grid}}" capture-catch:touchstart='touchStart' class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-bottom: {{grid.bottom ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-left: {{grid.left ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-right: {{grid.right ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}};background: {{grid.begin ? 'rgba(0,255,0,0.5)' : (grid.end ? 'rgba(255,0,0,0.5)' : 'rgb(255,255,255)')}};">
-        {{grid.key}}
-        </view>
-      </view>
-    </view>
-    <view class="bottom">
-      <view bindtap='newMap' class="test-btn">
-        test
+<view class="home">
+  <view class="main">
+    <view class="row" wx:for="{{grids}}" wx:for-index="index" wx:key="index" wx:for-item="row">
+      <view data-grid="{{grid}}" capture-catch:touchstart='touchStart' class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-bottom: {{grid.bottom ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-left: {{grid.left ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}}; border-right: {{grid.right ? '1px solid rgb(0,0,0)' : '1px solid rgb(240,240,240)'}};background: {{grid.begin ? 'rgba(0,255,0,0.5)' : (grid.end ? 'rgba(255,0,0,0.5)' : 'rgb(255,255,255)')}};">
       </view>
     </view>
   </view>
-</scroll-view>
+  <view class="bottom">
+    <view bindtap='getGrids' class="test-btn">
+      test
+    </view>
+  </view>
+</view>

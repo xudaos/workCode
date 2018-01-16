@@ -21,7 +21,10 @@ var config = {
         tunnelUrl: `${host}/workcode/tunnel`,
 
         // 上传图片接口
-        uploadUrl: `${host}/workcode/upload`
+        uploadUrl: `${host}/workcode/upload`,
+
+        //获取迷宫地图
+        gridsUrl: `${host}/workcode/grids`
     }
 };
 
