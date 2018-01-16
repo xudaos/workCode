@@ -1,102 +1,106 @@
 // pages/home/home.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    grids: [],
+    grids: null,
     message: 'hello'
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  touchStart (event) {
+    console.log(event)
+  },
+  newMap () {
+    this.initGrids()
+    const beginRow = Math.floor(Math.random() * getApp().data.row)
+    const beginCol = Math.floor(Math.random() * getApp().data.col)
+    let endRow = null
+    let endCol = null
+    do {
+      endRow = Math.floor(Math.random() * getApp().data.row)
+      endCol = Math.floor(Math.random() * getApp().data.col)
+    } while (beginRow === endRow && beginCol === endCol)
+    const grids = this.data.grids
+    this.gridByRowAndCol(beginRow, beginCol).begin = 1
+    this.gridByRowAndCol(endRow, endCol).end = 1
+    this.generateMap_1(grids, this.gridByRowAndCol(beginRow, beginCol))
+    this.setData({
+      grids: grids
+    })
+  },
+  generateMap_1 (grids, currentGrid) {
+    currentGrid.map1Visit = 1
+    const sideList = this.map1SideList(grids, currentGrid)
+    if (sideList.length > 0) {
+      const nextGrid = sideList[Math.floor(Math.random() * sideList.length)]
+      if (nextGrid.row < currentGrid.row) {
+        nextGrid.bottom = 0
+        currentGrid.top = 0
+      }
+      if (nextGrid.col < currentGrid.col) {
+        nextGrid.right = 0
+        currentGrid.left = 0
+      }
+      if (nextGrid.col > currentGrid.col) {
+        nextGrid.left = 0
+        currentGrid.right = 0
+      }
+      if (nextGrid.row > currentGrid.row) {
+        nextGrid.top = 0
+        currentGrid.bottom = 0
+      }
+      this.generateMap_1(grids, nextGrid)
+    }
+  },
+  map1Remain (grids) {
+    for (let i = 0; i < grids.length; i++) {
+      for (let j = 0; j < grids[i].length; j++) {
+        if (!grids[i][j].map1Visit) {
+          return grids[i][j]
+        }
+      }
+    }
+    return null
+  },
+  map1SideList (grids, grid) {
+    const sideList = []
+    if (grid.row > 0 && !grids[grid.row - 1][grid.col].map1Visit) {
+      sideList.push(grids[grid.row - 1][grid.col])
+    }
+    if (grid.col > 0 && !grids[grid.row][grid.col - 1].map1Visit) {
+      sideList.push(grids[grid.row][grid.col - 1])
+    }
+    if (grid.col < getApp().data.col - 1 && !grids[grid.row][grid.col + 1].map1Visit) {
+      sideList.push(grids[grid.row][grid.col + 1])
+    }
+    if (grid.row < getApp().data.row - 1 && !grids[grid.row + 1][grid.col].map1Visit) {
+      sideList.push(grids[grid.row + 1][grid.col])
+    }
+    return sideList
+  },
+  initGrids () {
     const grids = []
-    const beginI = Math.floor(Math.random() * 30)
-    const beginJ = Math.floor(Math.random() * 20)
-    console.log(beginI + ',' + beginJ)
-    const endI = Math.floor(Math.random() * 30)
-    const endJ = Math.floor(Math.random() * 20)
-    console.log(endI + ',' + endJ)
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < getApp().data.row; i++) {
       const rows = []
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < getApp().data.col; j++) {
         const grid = {
           key: i + ',' + j,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0
-        }
-        if (i === 0) {
-          grid.top = 1
-        }
-        if (i === 29) {
-          grid.bottom = 1
-        }
-        if (j === 0) {
-          grid.left = 1
-        }
-        if (j === 19) {
-          grid.right = 1
+          row: i,
+          col: j,
+          top: 1,
+          bottom: 1,
+          left: 1,
+          right: 1
         }
         rows.push(grid)
       }
       grids.push(rows)
-      this.setData({
-        grids: grids
-      })
     }
+    this.setData({
+      grids: grids
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  gridByRowAndCol (row, col) {
+    return this.data.grids[row][col]
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  onLoad: function (options) {
+    this.newMap()
   }
 })
