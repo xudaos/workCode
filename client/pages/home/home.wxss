@@ -20,6 +20,15 @@
 .grid {
   flex: 1;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.grid .visit {
+  width: 10rpx;
+  height: 10rpx;
+  background: rgb(128,64,0);
+  border-radius: 50%;
 }
 .bottom {
   width: 100%;
@@ -34,14 +43,4 @@
   font-size: 30rpx;
   padding: 10rpx 20rpx;
   border-radius: 10rpx;
-}
-.test {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: rgba(0,0,0,0.5);
-}
-.test-grid {
-  position: absolute;
-  background: rgba(0,0,0,0.5);
 }

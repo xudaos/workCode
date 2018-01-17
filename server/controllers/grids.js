@@ -3,8 +3,8 @@ const _col = 20
 
 module.exports = async (ctx, next) => {
   const { grids, beginGrid } = newMap()
-  setEndGrid(grids, beginGrid)
-  ctx.state.data = grids
+  const endGrid = setEndGrid(grids, beginGrid)
+  ctx.state.data = { grids, beginGrid, endGrid }
 }
 
 //初始化网格
@@ -138,5 +138,5 @@ function solveSideList (grids, grid) {
 function setEndGrid(grids, beginGrid) {
   const endGrid = solveMap(grids, beginGrid)
   grids[endGrid.row][endGrid.col].end = 1
-  return grids
+  return endGrid
 }

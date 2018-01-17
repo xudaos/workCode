@@ -2,6 +2,8 @@
   <view id="home-main" class="main">
     <view class="row" wx:for="{{grids}}" wx:for-index="index" wx:key="index" wx:for-item="row">
       <view data-grid="{{grid}}" capture-catch:touchstart='touchStartMap' capture-catch:touchmove='touchMoveMap' class="grid" wx:for="{{row}}" wx:for-item="grid" wx:key="key" style="border-top: {{grid.top ? '1rpx solid rgb(0,0,0)' : '1rpx solid rgb(240,240,240)'}}; border-bottom: {{grid.bottom ? '1rpx solid rgb(0,0,0)' : '1rpx solid rgb(240,240,240)'}}; border-left: {{grid.left ? '1rpx solid rgb(0,0,0)' : '1rpx solid rgb(240,240,240)'}}; border-right: {{grid.right ? '1rpx solid rgb(0,0,0)' : '1rpx solid rgb(240,240,240)'}};background: {{grid.begin ? 'rgba(0,255,0,0.5)' : (grid.end ? 'rgba(255,0,0,0.5)' : 'rgb(255,255,255)')}};">
+      <view hidden="{{!grid.visit}}" class="visit"></view>
+      <view hidden="{{!grid.current}}" class="current"></view>
       </view>
     </view>
   </view>
