@@ -2,10 +2,12 @@ const _row = 30
 const _col = 20
 
 module.exports = async (ctx, next) => {
-  const grids = newMap()
+  const { grids, beginGrid } = newMap()
+  setEndGrid(grids, beginGrid)
   ctx.state.data = grids
 }
 
+//初始化网格
 function initGrids() {
   const grids = []
   for (let i = 0; i < _row; i++) {
@@ -27,30 +29,27 @@ function initGrids() {
   return grids
 }
 
+//生成新地图
 function newMap() {
   const grids = initGrids()
   const beginRow = Math.floor(Math.random() * _row)
   const beginCol = Math.floor(Math.random() * _col)
-  let endRow = null
-  let endCol = null
-  do {
-    endRow = Math.floor(Math.random() * _row)
-    endCol = Math.floor(Math.random() * _col)
-  } while (beginRow === endRow && beginCol === endCol)
   grids[beginRow][beginCol].begin = 1
-  grids[endRow][endCol].end = 1
   generateMap_1(grids, grids[beginRow][beginCol], true)
-  return grids
+  return {
+    grids: grids,
+    beginGrid: grids[beginRow][beginCol]
+  }
 }
 
+//新地图生成算法1
 let map1Stack = []
-
 function generateMap_1(grids, currentGrid, init) {
   if (init) {
     map1Stack = []
   }
   currentGrid.map1Visit = 1
-  const sideList = map1SideList(grids, currentGrid)
+  const sideList = map1SideList(grids, currentGrid) //获取周边未访问单元格
   if (sideList.length > 0) {
     const nextGrid = sideList[Math.floor(Math.random() * sideList.length)]
     map1Stack.push(currentGrid)
@@ -79,18 +78,6 @@ function generateMap_1(grids, currentGrid, init) {
     }
   }
 }
-
-function map1Remain(grids) {
-  for (let i = 0; i < grids.length; i++) {
-    for (let j = 0; j < grids[i].length; j++) {
-      if (!grids[i][j].map1Visit) {
-        return grids[i][j]
-      }
-    }
-  }
-  return null
-}
-
 function map1SideList(grids, grid) {
   const sideList = []
   if (grid.row > 0 && !grids[grid.row - 1][grid.col].map1Visit) {
@@ -106,4 +93,50 @@ function map1SideList(grids, grid) {
     sideList.push(grids[grid.row + 1][grid.col])
   }
   return sideList
+}
+//地图寻路算法
+function solveMap (grids, beginGrid) {
+  const solvePath = []
+  const pathList = []
+  beginGrid.solveVisit = 1
+  solvePath.push(beginGrid)
+  while (solvePath.length > 0) {
+    const currentGrid = solvePath[solvePath.length - 1]
+    const sideList = solveSideList(grids, currentGrid)
+    if (sideList.length > 0) {
+      solvePath.push(sideList[0])
+      sideList[0].solveVisit = 1
+    } else {
+      pathList.push(solvePath.concat())
+      solvePath.pop()
+    }
+  }
+  pathList.sort(function (x, y) {
+    return y.length - x.length
+  })
+  const path = pathList[0]
+  return path[path.length - 1]
+}
+function solveSideList (grids, grid) {
+  const sideList = []
+  if (grid.top === 0 && !grids[grid.row - 1][grid.col].solveVisit) {
+    sideList.push(grids[grid.row - 1][grid.col])
+  }
+  if (grid.left === 0 && !grids[grid.row][grid.col - 1].solveVisit) {
+    sideList.push(grids[grid.row][grid.col - 1])
+  }
+  if (grid.right === 0 && !grids[grid.row][grid.col + 1].solveVisit) {
+    sideList.push(grids[grid.row][grid.col + 1])
+  }
+  if (grid.bottom === 0 && !grids[grid.row + 1][grid.col].solveVisit) {
+    sideList.push(grids[grid.row + 1][grid.col])
+  }
+  return sideList
+}
+
+//设置结束点
+function setEndGrid(grids, beginGrid) {
+  const endGrid = solveMap(grids, beginGrid)
+  grids[endGrid.row][endGrid.col].end = 1
+  return grids
 }
